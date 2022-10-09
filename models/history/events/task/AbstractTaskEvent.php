@@ -16,7 +16,7 @@ abstract class AbstractTaskEvent extends AbstractEvent
             'task',
             [
                 'eventName' => $this->getName(),
-                'taskTitle' => $this->task->title ?? 'Deleted'
+                'taskTitle' => $this->getTask()->title ?? 'Deleted'
             ]
         );
     }
