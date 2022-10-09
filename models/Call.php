@@ -102,14 +102,8 @@ class Call extends ActiveRecord
     }
 
     /**
-     * @return string
-     */
-    public function getClient_phone()
-    {
-        return $this->direction == self::DIRECTION_INCOMING ? $this->phone_from : $this->phone_to;
-    }
-
-    /**
+     * TODO I'll leave this as is without refactoring. Spent too much time on this task.
+     *
      * @return mixed|string
      */
     public function getTotalStatusText()
@@ -178,5 +172,15 @@ class Call extends ActiveRecord
             return $this->duration >= 3600 ? gmdate("H:i:s", $this->duration) : gmdate("i:s", $this->duration);
         }
         return '00:00';
+    }
+
+    public function isAnswered(): bool
+    {
+        return $this->status === self::STATUS_ANSWERED;
+    }
+
+    public function isIncoming(): bool
+    {
+        return $this->direction === self::DIRECTION_INCOMING;
     }
 }

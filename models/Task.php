@@ -102,56 +102,6 @@ class Task extends ActiveRecord
     }
 
     /**
-     * @return array
-     */
-    public static function getStatusTexts()
-    {
-        return [
-            self::STATUS_NEW => Yii::t('app', 'New'),
-            self::STATUS_DONE => Yii::t('app', 'Complete'),
-            self::STATUS_CANCEL => Yii::t('app', 'Cancel'),
-        ];
-    }
-
-    /**
-     * @param $value
-     * @return int|mixed
-     */
-    public function getStatusTextByValue($value)
-    {
-        return self::getStatusTexts()[$value] ?? $value;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function getStatusText()
-    {
-        return self::getStatusTextByValue($this->status);
-    }
-
-    /**
-     * @return array
-     */
-    public static function getStateTexts()
-    {
-        return [
-            self::STATE_INBOX => Yii::t('app', 'Inbox'),
-            self::STATE_DONE => Yii::t('app', 'Done'),
-            self::STATE_FUTURE => Yii::t('app', 'Future')
-        ];
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getStateText()
-    {
-        return self::getStateTexts()[$this->state] ?? $this->state;
-    }
-
-
-    /**
      * @return bool
      */
     public function getIsOverdue()

@@ -1,5 +1,7 @@
 <?php
 
+use app\models\history\events\EventsFactory;
+use app\models\history\events\GenericEvent;
 use app\repositories\HistoryRecordsRepository;
 
 $params = require __DIR__ . '/params.php';
@@ -9,6 +11,8 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'en-US',
+    'sourceLanguage' => null,
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -46,6 +50,13 @@ $config = [
             ],
         ],
         'db' => $db,
+        'i18n' => [
+            'translations' => [
+                'events' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                ],
+            ],
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -64,6 +75,12 @@ $config = [
     'container' => [
         'singletons' => [
             HistoryRecordsRepository::class,
+            EventsFactory::class => static function ($container, $params, $config) {
+                return new EventsFactory(
+                    require __DIR__ . '/events.php',
+                    GenericEvent::class
+                );
+            },
         ]
     ]
 ];

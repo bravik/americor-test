@@ -65,24 +65,4 @@ class User extends ActiveRecord
             'statusText' => Yii::t('app', 'Status'),
         ];
     }
-
-    /**
-     * @return array
-     */
-    public static function getStatusTexts()
-    {
-        return [
-            self::STATUS_ACTIVE => Yii::t('app', 'Active'),
-            self::STATUS_DELETED => Yii::t('app', 'Deleted'),
-            self::STATUS_HIDDEN => Yii::t('app', 'Hidden'),
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatusText()
-    {
-        return self::getStatusTexts()[$this->status] ?? $this->status;
-    }
 }
