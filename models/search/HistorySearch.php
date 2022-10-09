@@ -2,76 +2,42 @@
 
 namespace app\models\search;
 
-use app\models\History;
+use DateTimeImmutable;
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
 
 /**
- * HistorySearch represents the model behind the search form about `app\models\History`.
- *
- * @property array $objects
+ * @property string $from
+ * @property string $till
  */
-class HistorySearch extends History
+class HistorySearch extends Model
 {
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [];
-    }
+    private $from;
+    private $till;
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
+    public function rules(): array
     {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
+        return [
+            [['from', 'till'], 'safe'],
+            [['from', 'till'], 'datetime'],
+        ];
     }
 
     /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
+     * @return ?DateTimeImmutable
      */
-    public function search($params)
+    public function getFrom()
     {
-        $query = History::find();
+        return $this->from ? new DateTimeImmutable($this->from) : null;
+    }
 
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $dataProvider->setSort([
-            'defaultOrder' => [
-                'ins_ts' => SORT_DESC,
-                'id' => SORT_DESC
-            ],
-        ]);
-
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            $query->where('0=1');
-            return $dataProvider;
-        }
-
-        $query->addSelect('history.*');
-        $query->with([
-            'customer',
-            'user',
-            'sms',
-            'task',
-            'call',
-            'fax',
-        ]);
-
-        return $dataProvider;
+    /**
+     * @return ?DateTimeImmutable
+     */
+    public function getTill()
+    {
+        return $this->till ? new DateTimeImmutable($this->till) : null;
     }
 }

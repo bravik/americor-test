@@ -1,5 +1,7 @@
 <?php
 
+use app\repositories\HistoryRecordsRepository;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -59,6 +61,11 @@ $config = [
         ]
     ],
     'params' => $params,
+    'container' => [
+        'singletons' => [
+            HistoryRecordsRepository::class,
+        ]
+    ]
 ];
 
 if (YII_ENV_DEV) {
