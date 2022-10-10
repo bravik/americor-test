@@ -72,24 +72,4 @@ class Fax extends ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
-
-    /**
-     * @return array
-     */
-    public static function getTypeTexts()
-    {
-        return [
-            self::TYPE_POA_ATC => Yii::t('app', 'POA/ATC'),
-            self::TYPE_REVOCATION_NOTICE => Yii::t('app', 'Revocation'),
-        ];
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function getTypeText()
-    {
-        return self::getTypeTexts()[$this->type] ?? $this->type;
-    }
-
 }

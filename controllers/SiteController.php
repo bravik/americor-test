@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\search\HistorySearch;
+use app\repositories\HistoryRecordsRepository;
 use Yii;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 
 class SiteController extends Controller
@@ -40,8 +42,20 @@ class SiteController extends Controller
     {
         $model = new HistorySearch();
 
+        $model->load(Yii::$app->request->queryParams);
+
+        if (!$model->validate()) {
+            // TODO Display errors
+            throw new BadRequestHttpException();
+        }
+
+        Yii::$container->get(HistoryRecordsRepository::class);
+
+        $historyRecordsRepository = Yii::$container->get(HistoryRecordsRepository::class);
+        $dataProvider = $historyRecordsRepository->dataProviderByCriteriaForExport();
+
         return $this->render('export', [
-            'dataProvider' => $model->search(Yii::$app->request->queryParams),
+            'dataProvider' => $dataProvider,
             'exportType' => $exportType,
             'model' => $model
         ]);
